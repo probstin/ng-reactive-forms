@@ -32,6 +32,8 @@ export class StepOneComponent implements OnInit, OnDestroy {
   // ====================
 
   ngOnInit(): void {
+    // during initialization, we only know that the company control is going to be required
+    // the rest are dynamically configured based on the selected value
     this.registrationForm = this.fb.group({
       company: [null, Validators.required],
       registrationNumber: [null],
@@ -39,14 +41,20 @@ export class StepOneComponent implements OnInit, OnDestroy {
       projectName: [null]
     });
 
+    // we use valueChanges here instead of the PrimeNG event emitter
+    // because we want this logic to run on changes made from the template
+    // and made programatically (like setting the value) from the component
     this.companyControl
       .valueChanges
       .pipe(takeUntil(this._destroyed$))
       .subscribe(company => {
-        this._setValidators(company);
+        this._setRegistrationNumberValidators(company);
         this.companySelected.emit(company);
       });
 
+    // we use valueChanges here instead of the PrimeNG event emitter
+    // because we want this logic to run on changes made from the template
+    // and made programatically (like setting the value) from the component
     this.registrationNumberControl
       .statusChanges
       .pipe(
@@ -61,7 +69,8 @@ export class StepOneComponent implements OnInit, OnDestroy {
         this.managerOverrideControl.setValue(false);
       });
 
-    // if there's registration info from the parent...
+    // if there's registration info from the parent
+    // we need to patch the form value so it hydrates
     const existingRegistration = this.registration;
     if (existingRegistration) {
       this.registrationForm.patchValue(existingRegistration);
@@ -87,7 +96,7 @@ export class StepOneComponent implements OnInit, OnDestroy {
   // form helpers
   // ====================
 
-  private _setValidators(company: any) {
+  private _setRegistrationNumberValidators(company: any) {
     if (company === 'GOOGLE' && this.managerOverrideControl.value !== true) {
       this.registrationNumberControl.setValidators([Validators.required, Validators.minLength(6)]);
       this.registrationNumberControl.setAsyncValidators(StepOneValidator.createValidator(this.registrationService));
