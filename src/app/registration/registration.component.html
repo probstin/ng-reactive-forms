@@ -1,0 +1,33 @@
+<div class="border-1 surface-border border-round lg:w-5 m-auto">
+    <div class="p-4 border-bottom-1 surface-border">
+        <p-steps 
+            [model]="steps" 
+            [readonly]="false" 
+            [(activeIndex)]="activeIndex">
+        </p-steps>
+    </div>
+    <div class="p-4" [ngSwitch]="activeIndex">
+        <ng-container *ngSwitchCase="0">
+            <h2>Step 1</h2>
+            <app-step-one
+                [isUserSystemManager]="isUserSystemManager"
+                [registration]="registration"
+                [isCompanyGoogle]="isCompanyGoogle"
+                (companySelected)="companySelected($event)"
+                (formSubmitted)="nextStep($event)">
+            </app-step-one>
+        </ng-container>
+        <ng-container *ngSwitchCase="1">
+            <h2>Step 2</h2>
+            <app-step-two></app-step-two>
+        </ng-container>
+        <ng-container *ngSwitchCase="2">
+            <h2>Step 3</h2>
+            <app-step-three></app-step-three>
+        </ng-container>
+        <ng-container *ngSwitchCase="3">
+            <h2>Step 4</h2>
+            <app-step-four></app-step-four>
+        </ng-container>
+    </div>
+</div>

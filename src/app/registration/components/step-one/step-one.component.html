@@ -1,0 +1,54 @@
+<form 
+    [formGroup]="registrationForm" 
+    (ngSubmit)="onSubmit()"
+    class="grid formgrid p-fluid">
+    <!-- COMPANY DROPDOWN -->
+    <div class="field mb-4 col-12">
+        <label for="company" class="font-medium text-700">Company</label>
+        <p-dropdown 
+            [options]="companies" 
+            formControlName="company" 
+            placeholder="Select a company">
+        </p-dropdown>
+    </div>
+    <!-- REGISTRATION NUMBER INPUT -->
+    <div class="field mb-4 col-12" *ngIf="isCompanyGoogle">
+        <label for="registrationNumber" class="font-medium text-700">Registration Number</label>
+        <span class="p-input-icon-right">
+            <i *ngIf="registrationNumberControl.valid" class="text-green-500 pi pi-check"></i>
+            <i *ngIf="registrationNumberControl.pending" class="pi pi-spin pi-spinner"></i>
+            <input 
+                pInputText 
+                formControlName="registrationNumber"
+                placeholder="Enter your registration number" />
+        </span>
+        <p
+            *ngIf="registrationNumberControl.hasError('duplicateNumber')"
+            class="mb-0 mt-2 font-small" 
+            style="color: red;">
+            This Registration Number already exists.
+        </p>
+    </div>
+    <div 
+        *ngIf="isCompanyGoogle && isUserSystemManager && registrationNumberControl.hasError('duplicateNumber')"    
+        class="field mb-4 col-12">
+        <label 
+            for="managerOverride" 
+            class="font-medium text-700">Registration Number Override</label>
+        <div class="field-checkbox">
+            <p-checkbox formControlName="managerOverride" [binary]="true"></p-checkbox>
+            <label for="managerOverride" class="text-900">Use this number regardless of its duplicate status.</label>
+        </div>
+    </div>
+    <!-- NEXT STEP BUTTON -->
+    <div class="col-12 flex align-items-center justify-content-end">
+        <button
+            pButton
+            label="Next Step" 
+            icon="pi pi-arrow-right" 
+            iconPos="right" 
+            type="submit"
+            [disabled]="!managerOverrideControl.value === true && !registrationForm.valid">
+        </button>
+    </div>
+</form>
