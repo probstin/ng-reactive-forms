@@ -36,8 +36,8 @@ export class RegistrationComponent {
   }
 
   nextStep(project: any): void {
-    this.registration = project;
-    console.log(project);
+    this.registration = { ...this.registration, ...project };
+    console.log(this.registration);
     this._changeStep(StepDirection.NEXT);
   }
 

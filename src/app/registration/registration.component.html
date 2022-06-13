@@ -19,7 +19,9 @@
         </ng-container>
         <ng-container *ngSwitchCase="1">
             <h2>Step 2</h2>
-            <app-step-two></app-step-two>
+            <app-step-two 
+                [registration]="registration">
+            </app-step-two>
         </ng-container>
         <ng-container *ngSwitchCase="2">
             <h2>Step 3</h2>
