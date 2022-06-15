@@ -46,6 +46,10 @@ export class RegistrationComponent {
     this._changeStep(StepDirection.PREVIOUS);
   }
 
+  // ====================
+  // helpers
+  // ====================
+
   private _changeStep(stepDirection: StepDirection): void {
     const currentIndex = this.activeIndex;
 

@@ -17,8 +17,9 @@
         <span class="p-input-icon-right">
             <i *ngIf="registrationNumberControl.valid" class="text-green-500 pi pi-check"></i>
             <i *ngIf="registrationNumberControl.pending" class="pi pi-spin pi-spinner"></i>
+            <i *ngIf="registrationNumberControl.hasError('duplicateNumber')" class="pi pi-times" style="color: red;"></i>
             <input 
-                pInputText 
+                pInputText
                 formControlName="registrationNumber"
                 placeholder="Enter your registration number" />
         </span>
